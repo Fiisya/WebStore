@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizel Store</title>
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4c51bf;
+            --primary-dark: #434190;
+            --secondary: #38a169;
+            --secondary-dark: #2f855a;
+            --dark: #1a202c;
+            --dark-lighter: #2d3748;
+            --light: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+       
+        header {
+            background: linear-gradient(135deg, #3998e4 0%, #667eea 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 0;
+        }
+        
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        header img {
+            width: 8rem;
+            height: 8rem;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        header img:hover {
+            transform: scale(1.05);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+      
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        nav a button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-weight: 800;
+            padding: 0.75rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        nav a button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 14px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        nav a button:active {
+            transform: translateY(0);
+        }
+        
+        
+        section {
+            padding: 4rem 1.5rem;
+        }
+        
+        section h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        section h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        section h1 i {
+            margin-right: 0.5rem;
+            color: var(--secondary);
+        }
+        
+       
+        .project-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 1.5rem 0.5rem;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            position: relative;
+        }
+        
+        .project-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .carousel-controls button {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .carousel-controls button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+
+        .produk {
+            background: linear-gradient(145deg, #323b4d, #2a3241);
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 320px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .produk:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+        
+        .produk img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .produk:hover img {
+            transform: scale(1.03);
+        }
+        
+        .produk h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .produk ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .produk ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .produk ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .produk p {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            padding: 0.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .produk a {
+            display: block;
+            text-align: center;
+            background: linear-gradient(to right, var(--secondary), var(--secondary-dark));
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .produk a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+        }
+        
+        
+        .warning {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: left;
+            margin: 3rem 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .warning::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.2;
+        }
+        
+        .warning > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .warning h1 {
+            color: white;
+        }
+        
+        .warning h1::after {
+            background: white;
+        }
+        
+        .warning p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        
+        .faq, .about {
+            background: linear-gradient(145deg, #323b4d, #2a3241);
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            padding: 2.5rem;
+            max-width: 900px;
+            margin: 3rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .faq h2, .about h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .faq ul {
+            list-style-type: none;
+        }
+        
+        .faq ul li {
+            margin-bottom: 1.5rem;
+        }
+        
+        .faq ul li strong {
+            color: var(--secondary);
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .about p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+         <-- chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R -->
+        .medsos {
+            text-align: left;
+            padding: 4rem 1.5rem;
+        }
+        
+        .medsos-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .medsos button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .medsos button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .medsos button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .medsos button:hover::before {
+            opacity: 1;
+        }
+        
+        .medsos button i, .medsos button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-lighter);
+            color: var(--light);
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+         
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--primary-dark);
+        }
+        
+   
+    
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .produk {
+                max-width: 280px;
+            }
+            
+            .faq, .about {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .project-container {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="home">
+        <img src="https://storage.googleapis.com/a1aa/image/ZPs2A7OOhNJbIkiNT2RjWyf0Ks7Vv0JrGGHVcdCyphU.jpg" alt="Profile picture of Kaizel Store">
+        <h1>Kaizel Store</h1>
+        <p>STORE AMANAH</p>
+        <nav>
+            <a href="#home"><button><i class="fas fa-home"></i> Home</button></a>
+            <a href="https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R"><button><i class="fas fa-star"></i> Testimoni</button></a>
+            <a href="#produc"><button><i class="fas fa-store"></i> Produk</button></a>
+            <a href="#faq"><button><i class="fas fa-question-circle"></i> FAQ</button></a>
+            <a href="#about"><button><i class="fas fa-info-circle"></i> About</button></a>
+            <a href="#medsos"><button><i class="fas fa-globe"></i> Medsos</button></a>
+        </nav>
+    </header>
+
+    <section id="produc">
+        <h1><i class="fas fa-store"></i> Produk Kami</h1>
+        <div class="project-container" id="productCarousel">
+            <div class="produk">
+                <img src="https://storage.googleapis.com/a1aa/image/yzl17Djt8EcxX33-Xox06K_boHt-eK5T6GWw80LOT8w.jpg" alt="Gambar Produk Domain .com">
+                <h2>Domain .com</h2>
+                <ul>
+                    <li>Domain .com untuk website profesional</li>
+                    <li>Gratis SSL</li>
+                    <li>Dukungan 24/7</li>
+                    <li>Harga terjangkau</li>
+                </ul>
+                <p>Harga: Rp 150.000/tahun</p>
+                <a href="https://wa.me/6282126446272?text=Mau+order+domain+com" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="produk">
+                <img src="https://storage.googleapis.com/a1aa/image/yzAP8YL428zGw3Rer8BakUtfpUFI9JjIgkzSzUvfHR8.jpg" alt="Gambar Produk Domain .net">
+                <h2>Domain .net</h2>
+                <ul>
+                    <li>Domain .net untuk jaringan dan teknologi</li>
+                    <li>Gratis SSL</li>
+                    <li>Dukungan 24/7</li>
+                    <li>Harga terjangkau</li>
+                </ul>
+                <p>Harga: Rp 180.000/tahun</p>
+                <a href="https://wa.me/6282126446272?text=Mau+order+domain+net" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="produk">
+                <img src="https://storage.googleapis.com/a1aa/image/sX2YFLof41mw4ZyiUqLlmjxXkrXljn5JcYvVx7ZjT8A.jpg" alt="Gambar Produk Hosting Basic">
+                <h2>Hosting Basic</h2>
+                <ul>
+                    <li>10GB SSD Storage</li>
+                    <li>100GB Bandwidth</li>
+                    <li>Gratis SSL</li>
+                    <li>Dukungan 24/7</li>
+                </ul>
+                <p>Harga: Rp 50.000/bulan</p>
+                <a href="https://wa.me/6282126446272?text=Mau+order+hosting+basic" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="produk">
+                <img src="https://storage.googleapis.com/a1aa/image/GKXFg4QOyTUOMzoX0zTFQxEjNVaX_5hbRo_2gxqZ0LY.jpg" alt="Gambar Produk Hosting Pro">
+                <h2>Hosting Pro</h2>
+                <ul>
+                    <li>50GB SSD Storage</li>
+                    <li>Unlimited Bandwidth</li>
+                    <li>Gratis SSL</li>
+                    <li>Dukungan 24/7</li>
+                </ul>
+                <p>Harga: Rp 100.000/bulan</p>
+                <a href="https://wa.me/6281377796883?text=Mau+order+hosting+pro" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="produk">
+                <img src="https://storage.googleapis.com/a1aa/image/dHmXGjp9-XnK02DQW8EIiHugfV-tuzkXFBUnVkMQHos.jpg" alt="Gambar Produk Hosting Unlimited">
+                <h2>Hosting Unlimited</h2>
+                <ul>
+                    <li>Unlimited SSD Storage</li>
+                    <li>Unlimited Bandwidth</li>
+                    <li>Gratis SSL</li>
+                    <li>Dukungan 24/7</li>
+                </ul>
+                <p>Harga: Rp 150.000/bulan</p>
+                <a href="https://wa.me/6282126446272?text=Mau+order+hosting+unlimited" target="_blank">Beli Sekarang</a>
+            </div>
+        </div>
+        
+        <div class="carousel-controls">
+            <button id="prevButton"><i class="fas fa-chevron-left"></i></button>
+            <button id="nextButton"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section id="warning" class="warning">
+        <h1><i class="fas fa-exclamation-triangle"></i> Peringatan</h1>
+        <p>Produk yang saya jual, seperti domain dan hosting hanya di tunjukkan untuk keperluan profesional dan edukasi, saya tidak bertanggung jawab jika digunakan untuk tujuan melanggar hukum/tindak kriminal. Gunakan dengan bijak dengan aturan yg berlaku.</p>
+    </section>
+
+    <section id="faq" class="faq">
+        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+        <ul>
+            <li>
+                <strong>Q: Bagaimana cara membeli domain?</strong>
+                A: Anda bisa menghubungi kami melalui WhatsApp atau Telegram untuk membeli domain. Kami akan membantu Anda memilih domain yang tepat dan memproses pembelian dengan cepat.
+            </li>
+            <li>
+                <strong>Q: Apakah ada dukungan teknis?</strong>
+                A: Ya, kami menyediakan dukungan teknis 24/7 untuk semua pelanggan kami. Anda dapat menghubungi kami melalui WhatsApp atau Telegram kapan saja.
+            </li>
+            <li>
+                <strong>Q: Apakah ada garansi uang kembali?</strong>
+                A: Ya, kami menawarkan garansi uang kembali dalam 30 hari jika Anda tidak puas dengan layanan kami. Kepuasan pelanggan adalah prioritas kami.
+            </li>
+            <li>
+                <strong>Q: Berapa lama proses aktivasi hosting?</strong>
+                A: Proses aktivasi hosting biasanya memakan waktu 1-24 jam setelah pembayaran dikonfirmasi. Kami berusaha untuk mengaktifkan layanan secepat mungkin.
+            </li>
+            <li>
+                <strong>Q: Apakah bisa upgrade paket hosting?</strong>
+                A: Ya, Anda dapat upgrade paket hosting kapan saja sesuai dengan kebutuhan Anda. Kami akan membantu proses migrasi tanpa downtime.
+            </li>
+        </ul>
+    </section>
+
+    <section id="about" class="about">
+        <h2><i class="fas fa-info-circle"></i> Tentang Kaizel Store</h2>
+        <p>Kaizel Store adalah penyedia layanan domain dan hosting yang berkomitmen untuk memberikan layanan terbaik kepada pelanggan kami. Kami menawarkan berbagai paket domain dan hosting yang sesuai dengan kebutuhan Anda, baik untuk keperluan pribadi maupun bisnis.</p>
+        <p>Dengan pengalaman bertahun-tahun di industri web hosting, kami memahami pentingnya keandalan, kecepatan, dan keamanan untuk website Anda. Server kami dilengkapi dengan teknologi terbaru dan sistem keamanan yang kuat untuk memastikan website Anda selalu online dan terlindungi.</p>
+        <p>Dengan dukungan teknis 24/7 dan harga yang terjangkau, kami siap membantu Anda membangun dan mengelola website Anda dengan mudah dan efisien. Kepuasan pelanggan adalah prioritas utama kami, dan kami berkomitmen untuk memberikan pelayanan terbaik untuk setiap pelanggan.</p>
+    </section>
+
+    <section id="medsos" class="medsos">
+        <h1><i class="fas fa-globe"></i> Media Sosial</h1>
+        <p>Ikuti kami di media sosial untuk mendapatkan informasi terbaru tentang produk, promo, dan tips seputar website.</p>
+        <div class="medsos-buttons">
+            <button id="whatsappButton">
+                <i class="fab fa-whatsapp"></i> <span>WhatsApp</span> <i class="fas fa-external-link-alt"></i>
+            </button>
+            <button id="telegramButton">
+                <i class="fab fa-telegram"></i> <span>Telegram</span> <i class="fas fa-external-link-alt"></i>
+            </button>
+            <button id="tiktokButton">
+                <i class="fab fa-tiktok"></i> <span>Tiktok</span> <i class="fas fa-external-link-alt"></i>
+            </button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Kaizel Store. All rights reserved.</p>
+        <p>Menyediakan layanan domain dan hosting terbaik untuk kebutuhan website Anda</p>
+    </footer>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+     //chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+        const carousel = document.getElementById('productCarousel');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        
+        prevButton.addEventListener('click', () => {
+            carousel.scrollBy({ left: -340, behavior:'smooth' }); });
+                nextButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: 340, behavior: 'smooth' });
+    });
+
+    
+    const backToTopButton = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    
+    document.getElementById('whatsappButton').onclick = function() {
+        window.open('https://wa.me/6282126446272', '_blank');
+    };
+
+    document.getElementById('telegramButton').onclick = function() {
+        window.open('https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R', '_blank');
+    };
+//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+    document.getElementById('tiktokButton').onclick = function() {
+        window.open('https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R', '_blank');
+    };
+</script>
+</body>
+</html>
